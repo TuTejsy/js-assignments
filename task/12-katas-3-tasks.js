@@ -28,6 +28,17 @@
  *   'NULL'      => false 
  */
 function findStringInSnakingPuzzle(puzzle, searchStr) {
+    // let str = puzzle.reduce((a, b) => a + b);
+    // str = str.split('');
+
+    // for (let i = 0; i < searchStr.length; i++) {
+    //     let ind = str.indexOf(searchStr[i]);
+    //     if (ind == -1) return false;
+
+    //     str[ind] = 0;
+    // }
+
+    // return true;
     throw new Error('Not implemented');
 }
 

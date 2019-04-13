@@ -26,7 +26,9 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return function (x) {
+        return f(g(x));
+    }
 }
 
 
@@ -47,7 +49,9 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return function(x) {
+        return Math.pow(x, exponent);
+    }
 }
 
 
@@ -64,8 +68,18 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-    throw new Error('Not implemented');
+function getPolynom(...args) {
+    return function (x) {
+        let result = 0;
+        let k = 0;
+        for (let i = args.length - 1; i >= 0; i--) {
+            result += args[k]*Math.pow(x, i);
+            k++;
+        }
+
+        return result;
+    }
+    
 }
 
 
@@ -84,7 +98,19 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    var cache = [];
+    
+    return function() {
+        console.log(cache);
+        if (cache.length == 0) {
+            cache.push(func.call(this));
+        } else {
+            cache.push(func.call(this));
+            console.log(cache[0]);
+            return cache.shift();
+        }
+    
+    }
 }
 
 
