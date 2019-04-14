@@ -34,7 +34,15 @@
  *
  */
 function parseBankAccount(bankAccount) {
-    throw new Error('Not implemented');
+    let a = [' _ | ||_|', '     |  |', ' _  _||_ ', ' _  _| _|', '   |_|  |', ' _ |_  _|', ' _ |_ |_|', ' _   |  |', ' _ |_||_|', ' _ |_| _|'];
+    let b = bankAccount.split('\n');
+    b.pop();
+    let s = 0;
+    while (b[0].length > 0) {
+        s = s * 10 + a.indexOf(b[0].slice(0, 3) + b[1].slice(0, 3) + b[2].slice(0, 3));
+        b = b.map(v => v.slice(3));
+    }
+    return s;
 }
 
 
@@ -63,7 +71,22 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    let str = text.split(' ');
+    let tempStr = '';
+    let k = [];
+    str.forEach((a) => {
+        if (a.length + tempStr.length >= columns) {
+            k.push(tempStr);
+            tempStr = '';
+        } 
+        if (tempStr.length == 0) tempStr += a;
+        else tempStr += ' ' + a;
+        
+    });
+
+    if (tempStr.length != 0) k.push(tempStr);
+
+    for (let i = 0; i < k.length; i++) yield k[i];
 }
 
 
@@ -134,8 +157,42 @@ function getPokerHandRank(hand) {
  *    '|             |\n'+              '+-----+\n'           '+-------------+\n'
  *    '+-------------+\n'
  */
-function* getFigureRectangles(figure) {
-   throw new Error('Not implemented');
+function getFigureRectangles(figure) {
+    let a = figure.split('\n');
+    let result = [];
+    let check = function bar(n, m) {
+        let i;
+        let j;
+        for (i = m;; i++) {
+            if (a[n - 1][i] == undefined || a[n - 1][i] == ' ' || a[n] == undefined) return;
+            if (a[n][i] != ' ') break;
+        }
+        let w = i;
+        for (j = n;; j++) {
+            if (a[j] == undefined || a[j][w] == ' ') return;
+            if (a[j][w - 1] != ' ') break;
+        }
+        let h = j;
+        for (i = w - 1;; i--) {
+            if (a[h][i] == undefined || a[h][i] == ' ' || a[h - 1] == undefined) return;
+            if (a[h - 1][i] != ' ') break;
+        }
+        if (i + 1 != m) return;
+        for (j = h - 1;; j--) {
+            if (a[j] == undefined || a[j][m - 1] == ' ') return;
+            if (a[j][m] != ' ') break;
+        }
+        if (j + 1 != n) return;
+        n = h - n;
+        m = w - m;
+        result.push('+' + '-'.repeat(m) + '+\n' + ('|' + ' '.repeat(m) + '|\n').repeat(n) + '+' + '-'.repeat(m) + '+\n');
+    }
+
+    a.pop();
+    a.forEach((v, i) => v.split('').forEach((v, j) => {
+        if (v == '+') check(i + 1, j + 1);
+    }));
+    return result;
 }
 
 

@@ -56,7 +56,15 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    throw new Error('Not implemented');
+    function permutations(string) {
+        return (string.length == 1) ? [string] : string.split('').map(
+           (e, i) => permutations(string.slice(0,i) + string.slice(i+1)).map((e2) => e+e2)
+        ).reduce((r,e) => r.concat(e)).sort().filter((e,i,a) => (i==0) || a[i-1] != e);
+      }
+
+    let arr = permutations(chars);
+    
+    for (let i = 0; i < arr.length; i++) yield arr[i];
 }
 
 
@@ -76,7 +84,20 @@ function* getPermutations(chars) {
  *    [ 1, 6, 5, 10, 8, 7 ] => 18  (buy at 1,6,5 and sell all at 10)
  */
 function getMostProfitFromStockQuotes(quotes) {
-    throw new Error('Not implemented');
+    let res = 0;
+    function recurs (arr) {
+        if (arr.length == 0) return
+
+        let max = Math.max(...arr);
+        let pos = arr.indexOf(max);
+        
+
+        for (let i = 0; i < pos; i++) res += (max - arr[i]);
+        recurs(arr.slice(pos + 1, arr.length));
+    }
+
+    recurs(quotes)
+    return res;
 }
 
 
