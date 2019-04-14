@@ -170,24 +170,12 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    // return function(...args) {
-    //     let str = '' + func.name + '(';
-    //     args.forEach((a, j) => {
-    //         if (typeof a == 'array') {
-    //             str += '['
-    //             a.forEach((b, i) => str +='\"' += b += (i == (b.length - 1)) ? ']' : '",');
-    //         }
-
-    //         str += (j == (a.length - 1)) ? ')' : '",';
-    //     })
-
-    //     console.log(logFunc.call(this, str + ' starts'));
-    //     let result = func.apply(this, args);
-    //     logFunc.call(this, str + 'ends');
-
-    //     return result;
-    // }
-    throw new Error('Not implemented');
+    return function(...args) {
+        logFunc(func.name + '(' + JSON.stringify(args).slice(1,-1) + ') starts');
+        let result = func(...args);
+        logFunc(func.name + '(' + JSON.stringify(args).slice(1,-1) + ') ends');
+        return result;
+      }
 }
 
 

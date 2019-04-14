@@ -172,7 +172,37 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    throw new Error('Not implemented');
+    for (let i = 0; i < dominoes.length; i++) {
+        for (let j = 0; j < dominoes.length; j++) {
+            if (i == j) continue;
+
+            if (dominoes[i][0] == dominoes[j][0]) {
+                dominoes[i].shift();
+                dominoes[j].shift();
+                continue;
+            } else if (dominoes[i][0] == dominoes[j][1]) {
+                dominoes[i].shift();
+                dominoes[j].pop();
+                continue;
+            } else if (dominoes[i][1] == dominoes[j][0]) {
+                dominoes[i].pop();
+                dominoes[j].shift();
+                continue;
+            } else if (dominoes[i][1] == dominoes[j][1]) {
+                dominoes[i].pop();
+                dominoes[j].pop();
+                continue;
+            }
+        }
+    }
+
+    let len = 0;
+    dominoes.forEach((a) => { 
+        if ((a.length == 2) && (a[1] != 6)) len = 5;
+        len += a.length;
+    });
+
+    return (len == 2) || (len == 0);
 }
 
 
@@ -196,7 +226,25 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    let str = [];
+    let temp = [];
+
+    for (let i = 0; i < nums.length; i++) {
+      if((nums[i + 1] - nums[i]) == 1) {
+        temp.push(nums[i]);
+        continue;
+      } else temp.push(nums[i]);
+    
+      if(temp.length > 2) {
+        temp.push(nums[i]);
+        str.push(temp[0] + '-' + temp.pop());
+        temp = [];
+      } else {
+        str.push(temp);
+        temp = [];
+      }
+    }
+    return str.join(',');
 }
 
 module.exports = {
