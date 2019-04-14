@@ -98,19 +98,17 @@ function getPolynom(...args) {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    var cache = [];
-    
+    var cacheValue = {};
+  
     return function() {
-        console.log(cache);
-        if (cache.length == 0) {
-            cache.push(func.call(this));
-        } else {
-            cache.push(func.call(this));
-            console.log(cache[0]);
-            return cache.shift();
-        }
+        var temp = JSON.stringify(arguments);
     
-    }
+        if(!cacheValue.hasOwnProperty(temp)) {
+        cacheValue[temp] = func.apply(this, arguments);
+        }
+   
+        return cacheValue[temp];
+    };
 }
 
 
@@ -130,7 +128,21 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
+    let result;
+    let i = 0;
+   return function () {
+    while (!result && i < attempts) {
+        try {
+            result = func.call(this);
+        
+        } catch(e) {
+            i++;
+            continue;
+        }
+    }
+
+    return result;
+   }
 }
 
 
@@ -158,6 +170,23 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
+    // return function(...args) {
+    //     let str = '' + func.name + '(';
+    //     args.forEach((a, j) => {
+    //         if (typeof a == 'array') {
+    //             str += '['
+    //             a.forEach((b, i) => str +='\"' += b += (i == (b.length - 1)) ? ']' : '",');
+    //         }
+
+    //         str += (j == (a.length - 1)) ? ')' : '",';
+    //     })
+
+    //     console.log(logFunc.call(this, str + ' starts'));
+    //     let result = func.apply(this, args);
+    //     logFunc.call(this, str + 'ends');
+
+    //     return result;
+    // }
     throw new Error('Not implemented');
 }
 
@@ -175,8 +204,12 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+function partialUsingArguments(fn , ...args) {
+
+    return (...a) => {
+        args.push(...a);
+        return fn.apply(this, args);
+    }
 }
 
 
@@ -197,7 +230,12 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    return function () {
+        let i = startFrom;
+        startFrom++;
+
+        return i;
+    }
 }
 
 

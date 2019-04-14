@@ -33,7 +33,18 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    for (let i = 99; i > 1; ) {
+        yield (i + ' bottles of beer on the wall, ' + i + ' bottles of beer.');
+        i--;
+        if (i == 1) break;
+        yield ('Take one down and pass it around, ' + i +  ' bottles of beer on the wall.');
+      }
+      yield ('Take one down and pass it around, ' + 1 +  ' bottle of beer on the wall.');
+
+      yield '1 bottle of beer on the wall, 1 bottle of beer.',
+      yield 'Take one down and pass it around, no more bottles of beer on the wall.',
+      yield 'No more bottles of beer on the wall, no more bottles of beer.',
+      yield 'Go to the store and buy some more, 99 bottles of beer on the wall.'
 }
 
 
@@ -47,7 +58,18 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    yield 0;
+    yield 1;
+    yield 1;
+    let f1 = 0;
+    let f2 = 1;
+    let f3 = 1;
+    while ( f3 != 39088169) { 
+        f1 = f2;
+        f2 = f3;
+        f3 = f1 + f2;
+        yield f3; 
+    }
 }
 
 
@@ -126,6 +148,18 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
+    // let i = 0;
+    // while(source1[i] || source2[i]) {
+    //     if (source1[i] && source2[i]) {
+    //         if (source1[i] < source2[i]) {
+    //             yield source1[i]; yield source2[i];
+    //         } else {yield source2[i]; yield source1[i];}
+    //     } else {
+    //         if (source1[i]) yield source1[i];
+    //         else if(source2[i]) yield source2[i];
+    //     }
+    //     i++;
+    // }
     throw new Error('Not implemented');
 }
 
