@@ -121,15 +121,27 @@ function UrlShortener() {
                            "0123456789-_.~!*'();:@&=+$,/?#[]";
 }
 
-UrlShortener.prototype = {
+function UrlShortener() {
+    this.urlAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~!*'();:@&=+$,/?#[]";
+}
 
+UrlShortener.prototype = {
     encode: function(url) {
-        throw new Error('Not implemented');
+      var res = '';
+      for(let i = 0; i * 2 < url.length; i++) {
+        res += String.fromCodePoint(url.codePointAt(2 * i) * 256 + (url.codePointAt(2 * i + 1)||0))
+      }
+      return res;
     },
-    
+
     decode: function(code) {
-        throw new Error('Not implemented');
-    } 
+      var res = '';
+      for(let i = 0; i < code.length; i++) {
+        let c = code.codePointAt(i);
+        res += String.fromCodePoint(c/256|0) + (c%256?String.fromCodePoint(c%256):'');
+      }
+      return res;
+    }
 }
 
 
